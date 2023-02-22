@@ -10,7 +10,8 @@ fruityvice_response1 = requests.get("https://fruityvice.com/api/fruit/Apple");
 fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/Orange");
 streamlit.text(fruityvice_response1.json()); # {'genus': 'Malus', 'name': 'Apple', 'id': 6, 'family': 'Rosaceae', 'order': 'Rosales', 'nutritions': {'carbohydrates': 11.4, 'protein': 0.3, 'fat': 0.4, 'calories': 52, 'sugar': 10.3}}
 streamlit.text(fruityvice_response2.json()); # {'genus': 'Citrus', 'name': 'Orange', 'id': 2, 'family': 'Rutaceae', 'order': 'Sapindales', 'nutritions': {'carbohydrates': 8.3, 'protein': 1, 'fat': 0.2, 'calories': 43, 'sugar': 8.2}}
-full_response = [{'genus': 'Malus', 'name': 'Apple', 'id': 6, 'family': 'Rosaceae', 'order': 'Rosales', 'nutritions': {'carbohydrates': 11.4, 'protein': 0.3, 'fat': 0.4, 'calories': 52, 'sugar': 10.3}}, {'genus': 'Citrus', 'name': 'Orange', 'id': 2, 'family': 'Rutaceae', 'order': 'Sapindales', 'nutritions': {'carbohydrates': 8.3, 'protein': 1, 'fat': 0.2, 'calories': 43, 'sugar': 8.2}}];
+#full_response = [{'genus': 'Malus', 'name': 'Apple', 'id': 6, 'family': 'Rosaceae', 'order': 'Rosales', 'nutritions': {'carbohydrates': 11.4, 'protein': 0.3, 'fat': 0.4, 'calories': 52, 'sugar': 10.3}}, {'genus': 'Citrus', 'name': 'Orange', 'id': 2, 'family': 'Rutaceae', 'order': 'Sapindales', 'nutritions': {'carbohydrates': 8.3, 'protein': 1, 'fat': 0.2, 'calories': 43, 'sugar': 8.2}}];
+full_response = [fruityvice_response1.json(), fruityvice_response2.json()];
 streamlit.text(full_response);
 fruityvice_normalized = pandas.json_normalize(full_response);
 streamlit.text(fruityvice_normalized);
