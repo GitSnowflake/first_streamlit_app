@@ -35,7 +35,7 @@ streamlit.header('🥗FruityVice Fruit Advice:');
    
 try:
   #fruit_choice = streamlit.text_input('What fruit would you like information about?');
-  if len(fruit_for_advice) = 0:
+  if len(fruit_for_advice) == 0:
      streamlit.error('Please select a fruit to get informtaion.');
   else:   
     fruityvice_normalized = pandas.json_normalize(fruit_for_advice);
