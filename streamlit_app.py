@@ -19,11 +19,11 @@ streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt");
 my_fruit_list = my_fruit_list.set_index('Fruit');
-fruits_selected = streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado','Strawberries']);
+fruits_selected = streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado','Apple']);
 
 fruit_for_advice = [];
 fruit_for_advice.append(get_fruityvice_data('Avocado'));
-fruit_for_advice.append(get_fruityvice_data('Strawberries'));
+fruit_for_advice.append(get_fruityvice_data('Apple'));
 
 for fruit in fruits_selected:
     streamlit.text(fruit);
