@@ -22,4 +22,4 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon"
 streamlit.text(fruityvice_response.json());
 
 my_fruit_info = pandas.read_json(fruityvice_response.json());
-streamlit.dataframe(my_fruit_info);
+
