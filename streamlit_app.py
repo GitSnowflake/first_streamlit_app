@@ -8,8 +8,8 @@ streamlit.title("My Parents New Healthy Dinner");
 
 fruityvice_response1 = requests.get("https://fruityvice.com/api/fruit/Apple");
 fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/Orange");
-streamlit.text(fruityvice_response1);
-streamlit.text(fruityvice_response1);
+streamlit.text(fruityvice_response1.json());
+streamlit.text(fruityvice_response2.json());
 full_response = '';
 streamlit.text(full_response);
 fruityvice_normalized = pandas.json_normalize(full_response);
