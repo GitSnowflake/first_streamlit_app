@@ -20,7 +20,11 @@ streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt");
 my_fruit_list = my_fruit_list.set_index('Fruit');
 fruits_selected = streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado','Strawberries']);
+
 fruit_for_advice = [];
+fruit_for_advice.append(get_fruityvice_data('Avocado'));
+fruit_for_advice.append(get_fruityvice_data('Strawberries'));
+
 for fruit in fruits_selected:
     streamlit.text(fruit);
     fruit_for_advice.append(get_fruityvice_data(fruit));
@@ -28,15 +32,14 @@ fruits_to_show = my_fruit_list.loc[fruits_selected];
 streamlit.dataframe(fruits_to_show);
 
 streamlit.header('🥗FruityVice Fruit Advice:');
-
-    
+   
 try:
-  fruit_choice = streamlit.text_input('What fruit would you like information about?');
-  if not fruit_choice:
+  #fruit_choice = streamlit.text_input('What fruit would you like information about?');
+  if len(fruit_for_advice) = 0:
      streamlit.error('Please select a fruit to get informtaion.');
   else:   
     fruityvice_normalized = pandas.json_normalize(fruit_for_advice);
-    streamlit.text(fruityvice_normalized);
+    streamlit.dataframe(fruityvice_normalized);
     #streamlit.dataframe(get_fruityvice_data(fruit_choice));
 except URLError as e:
   streamlit.error();
