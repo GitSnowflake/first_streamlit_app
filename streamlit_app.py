@@ -19,7 +19,7 @@ fruits_to_show = my_fruit_list.loc[fruits_selected];
 streamlit.dataframe(fruits_to_show);
 
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon");
-temp = fruityvice_response.json();
+streamlit.text(fruityvice_response.json());
 
-my_fruit_info = pandas.read_json(temp,orient='index');
+
 
