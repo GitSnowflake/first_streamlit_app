@@ -4,18 +4,11 @@ import requests;
 import snowflake.connector;
 from urllib.error import URLError;
 
+def get_fruityvice_data(this_fruit_choice):
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice);
+    return fruityvice_response.json();
+
 streamlit.title("My Parents New Healthy Dinner"); 
-
-fruityvice_response1 = requests.get("https://fruityvice.com/api/fruit/Apple");
-fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/Orange");
-streamlit.text(fruityvice_response1.json()); # {'genus': 'Malus', 'name': 'Apple', 'id': 6, 'family': 'Rosaceae', 'order': 'Rosales', 'nutritions': {'carbohydrates': 11.4, 'protein': 0.3, 'fat': 0.4, 'calories': 52, 'sugar': 10.3}}
-streamlit.text(fruityvice_response2.json()); # {'genus': 'Citrus', 'name': 'Orange', 'id': 2, 'family': 'Rutaceae', 'order': 'Sapindales', 'nutritions': {'carbohydrates': 8.3, 'protein': 1, 'fat': 0.2, 'calories': 43, 'sugar': 8.2}}
-#full_response = [{'genus': 'Malus', 'name': 'Apple', 'id': 6, 'family': 'Rosaceae', 'order': 'Rosales', 'nutritions': {'carbohydrates': 11.4, 'protein': 0.3, 'fat': 0.4, 'calories': 52, 'sugar': 10.3}}, {'genus': 'Citrus', 'name': 'Orange', 'id': 2, 'family': 'Rutaceae', 'order': 'Sapindales', 'nutritions': {'carbohydrates': 8.3, 'protein': 1, 'fat': 0.2, 'calories': 43, 'sugar': 8.2}}];
-full_response = [fruityvice_response1.json(), fruityvice_response2.json()];
-streamlit.text(full_response);
-fruityvice_normalized = pandas.json_normalize(full_response);
-streamlit.text(fruityvice_normalized);
-
 streamlit.header('Breakfast Menu')
 streamlit.text('🥣 Omega 3 & Blueberry Oatmeal')
 streamlit.text('🥗 Kale, Spinach & Rocket Smoothie')
@@ -27,23 +20,24 @@ streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt");
 my_fruit_list = my_fruit_list.set_index('Fruit');
 fruits_selected = streamlit.multiselect("Pick some fruits:", list(my_fruit_list.index), ['Avocado','Strawberries']);
+fruit_for_advice = [];
 for fruit in fruits_selected:
     streamlit.text(fruit);
+    fruit_for_advice.append(get_fruityvice_data(fruit));
 fruits_to_show = my_fruit_list.loc[fruits_selected];
 streamlit.dataframe(fruits_to_show);
 
 streamlit.header('🥗FruityVice Fruit Advice:');
-def get_fruityvice_data(this_fruit_choice):
-    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice);
-    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json());
-    return fruityvice_normalized;
+
     
 try:
   fruit_choice = streamlit.text_input('What fruit would you like information about?');
   if not fruit_choice:
      streamlit.error('Please select a fruit to get informtaion.');
-  else:    
-    streamlit.dataframe(get_fruityvice_data(fruit_choice));
+  else:   
+    fruityvice_normalized = pandas.json_normalize(fruit_for_advice);
+    streamlit.text(fruityvice_normalized);
+    #streamlit.dataframe(get_fruityvice_data(fruit_choice));
 except URLError as e:
   streamlit.error();
 
