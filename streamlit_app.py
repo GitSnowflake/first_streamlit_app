@@ -8,9 +8,10 @@ streamlit.title("My Parents New Healthy Dinner");
 
 fruityvice_response1 = requests.get("https://fruityvice.com/api/fruit/Apple");
 fruityvice_response2 = requests.get("https://fruityvice.com/api/fruit/Orange");
-full_response = '['+fruityvice_response1+fruityvice_response2+']';
-fruityvice_normalized = pandas.json_normalize(full_response.json());
-streamlit.text(fruityvice_normalized);
+full_response = '{' + fruityvice_response1 + fruityvice_response2 + '}';
+streamlit.text(full_response);
+#fruityvice_normalized = pandas.json_normalize(full_response.json());
+#streamlit.text(fruityvice_normalized);
 
 streamlit.header('Breakfast Menu')
 streamlit.text('🥣 Omega 3 & Blueberry Oatmeal')
