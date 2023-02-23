@@ -26,8 +26,8 @@ fruit_for_advice.append(get_fruityvice_data('Avocado'));
 fruit_for_advice.append(get_fruityvice_data('Apple'));
 
 for fruit in fruits_selected:
-    streamlit.text(fruit);
     fruit_for_advice.append(get_fruityvice_data(fruit));
+    
 fruits_to_show = my_fruit_list.loc[fruits_selected];
 streamlit.dataframe(fruits_to_show);
 
@@ -46,21 +46,25 @@ except URLError as e:
 
 streamlit.header("The Fruit Load List Contains:");
 
-
 def get_fruit_load_list():
     with my_cnx.cursor() as my_cur:
         my_cur.execute("SELECT * FROM PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST")
         return my_cur.fetchall();
     
+def insert_row_snowflake(new_fruit):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("INSERT INTO PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST VALUES ('" + new_fruit+ "')");
+        return 'Thanks for adding ' + new_fruit
+    
 if streamlit.button('Get Fruit Load List'): 
     my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"]);
     my_data_row = get_fruit_load_list();
     streamlit.dataframe(my_data_row);
-    
-    
-    
-    
-streamlit.stop();
-fruit_added = streamlit.text_input('What fruit would you like to add?','');
-my_cur.execute("INSERT INTO FRUIT_LOAD_LIST() VALUES ()");
-streamlit.write(fruit_added, ' added succeffully!');
+    my_cnx.close();
+
+add_my_fruit = streamlit.text_input('What fruit would you like to add?');
+if streamlit.button('Add a fruit to the list'):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"]);
+    back_from_function = insert_row_snowflake(add_my_fruit);
+    stremlit.text(back_from_function);
+    my_cnx.close();             
